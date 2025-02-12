@@ -1,0 +1,37 @@
+====================================================================
+                       Dockerfile
+====================================================================
+
+FROM openjdk:8u151-jdk-alpine3.7
+
+EXPOSE 8070
+
+ENV APP_HOME /usr/src/app
+
+COPY target/shopping-cart-0.0.1-SNAPSHOT.jar $APP_HOME/app.jar
+
+WORKDIR $APP_HOME
+
+ENTRYPOINT exec java -jar app.jar
+
+====================================================================
+                       Dockerfile
+====================================================================
+
+# Use the official Ubuntu as a parent image
+FROM ubuntu:20.04
+
+# Update the package list and install Nginx
+RUN apt-get update && apt-get install -y nginx
+
+# Remove the default Nginx index.html file
+RUN rm -f /var/www/html/index.nginx-debian.html
+
+# Copy custom static files or configuration (optional)
+# COPY ./index.html /var/www/html/
+
+# Expose port 80 to allow web traffic
+EXPOSE 80
+
+# Start Nginx in the foreground
+CMD ["nginx", "-g", "daemon off;"]
